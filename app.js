@@ -1,29 +1,29 @@
 const express = require('express')
 const app = express()
 const logsArray = require('./models/logs')
+const logRouter = require('./controllers/logsController')
 
 app.use(express.json())
 
-
+// home
 app.get('/', (req, res) => {
     res.send(`welcome to the captain's log`)
 })
 
-// get /logs
 
-app.get('/logs', (req, res) => {
-    res.json(logsArray)
+// redirect to logsController to handle show and post(create)
+
+app.use('/logs', logRouter)
+
+
+
+
+// 404 route to show when route doesn't exist
+
+app.use((req, res, next) => {
+    res.status(404).send("Sorry, cant find that")
 })
 
-// Post /logs
-
-// app.post('/logs', (req, res) => {
-//     const newLog =req.body;
-//     logsArray.push(newLog)
-//     req.status(303).location('/logs').end()
-// })
-
-// get -> /longs
 
 
 module.exports = app
